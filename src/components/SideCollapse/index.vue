@@ -1,19 +1,23 @@
 <template>
     <div class="sideCollapse" id="domColapse">
     <i
-    @click="opened = !opened"
+    @click="setOpend"
       :class="{ 'el-icon-s-unfold': opened, 'el-icon-s-fold': !opened }"
     ></i>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
     export default {
-        data() {
-            return {
-                opened: false
-            }
-        },
+      computed: {
+        ...mapGetters(['opened'])
+      },
+      methods: {
+        setOpend() {
+          this.$store.commit('app/SET_OPEN')
+        }
+      },
     }
 </script>
 

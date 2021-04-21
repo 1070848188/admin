@@ -1,6 +1,11 @@
 <template>
-    <div>
-        <div class="sideBar" id="domSideBar">侧边栏</div>
+    <div class="pageMain">
+        <transition name="fade-page" mode="out-in">
+            <keep-alive>
+                <router-view v-if="!$route.meta.noCache"></router-view>
+            </keep-alive>
+            <router-view v-if="$route.meta.noCache"></router-view>
+        </transition>
     </div>
 </template>
 

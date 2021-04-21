@@ -1,5 +1,5 @@
 <template>
-  <div class="wrapper">
+  <div class="wrapper" :class="{ closeBar: opened }">
     <m-header></m-header>
     <div class="wrapper_con">
       <side-bar></side-bar>
@@ -12,6 +12,7 @@
 import MHeader from "./header";
 import PageMain from "./pageMain";
 import SideBar from "./sideBar";
+import { mapGetters } from 'vuex'
 export default {
   name: "Layout",
   components: {
@@ -19,6 +20,9 @@ export default {
     PageMain,
     SideBar,
   },
+  computed: {
+    ...mapGetters(['opened'])
+  }
 };
 </script>
 
