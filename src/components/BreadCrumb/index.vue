@@ -33,7 +33,6 @@ export default {
           allList.unshift({ path: '/', meta: { title: '首页' } })
         }
         this.breadList = allList
-        console.log(allList);
       },
       immediate: true
     }
