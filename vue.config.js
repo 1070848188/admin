@@ -2,21 +2,26 @@
 const path = require('path')
 
 function resolve(dir) {
-  return path.join(__dirname, dir)
+    return path.join(__dirname, dir)
 }
 
 module.exports = {
     devServer: {
-        open: true, // 自动打开浏览器
-        port: 8000, // 端口号
-        hot: true, // 开启热更新
+        host: 'localhost',
+        port: '8080',
+        hot: true,
+        open: true,
+        overlay: {
+            warning: false,
+            error: true
+        },
         proxy: { // 代理
             '/api': { // 以此路径开头的请求进行代理
                 target: process.env.VUE_APP_BASE_API, // 代理地址 替换axios中的baseUrl
                 changeOrigin: true, // 如果接口跨域，需要进行这个参数配置
                 secure: false, // 支持运行在HTTPS上
                 pathRewrite: {
-                    '^/api': '/'
+                    '^/api': ''
                 }
             }
         }

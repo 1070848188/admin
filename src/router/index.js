@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Layout from '@/layout';
 import Nprogress from 'nprogress';
 import { getToken } from '@/utils/auth';
+import store from '@/store';
 
 Vue.use(VueRouter)
 
@@ -111,7 +112,10 @@ const createRouter = () => {
   return new VueRouter({
     mode: 'history',
     base: process.env.BASE_URL,
-    routes: [...currencyRoutes, ...asyncRoutes]
+    routes: currencyRoutes,
+    scrollBehavior() {
+      return { x: 0, y: 0 }
+    }
   })
 }
 
@@ -124,7 +128,7 @@ export function resetRouter() {
 }
 
 // 路由守卫
-router.beforeEach((to, from, next) => {
+router.beforeEach(async (to, from, next) => {
   Nprogress.start(); // 开启进度条
 
   const hasToken = getToken() // 获取token
@@ -135,7 +139,18 @@ router.beforeEach((to, from, next) => {
       next({ path: '/' });
       Nprogress.done();
     } else { // 登录且不是进入Login
-      next()
+      // 获取用户权限
+      const roles = store.getters.roles;
+      if (roles) {
+        next() // 已经有权限
+      } else {
+        // 没有权限重新获取
+         const { roles } = await store.dispatch('user/getInfo');
+         const routes = await store.dispatch('permission/getAsyncRoutes', roles);
+         router.addRoutes(routes)
+         console.log(routes);
+         next({ ...to, replace: true })
+      }
       Nprogress.done();
     }
   } else {

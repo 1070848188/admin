@@ -17,7 +17,7 @@
         >
       </el-dropdown-item>
       <el-dropdown-item divided>
-        <a><i class="el-icon-switch-button"></i>登出</a>
+        <a @click="$store.dispatch('user/layout')"><i class="el-icon-switch-button"></i>登出</a>
       </el-dropdown-item>
     </el-dropdown-menu>
   </el-dropdown>

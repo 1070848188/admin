@@ -95,14 +95,14 @@ export default {
         }
       })
     },
-    async _login() {
-      const data = await this.$store.dispatch('user/_login', this.ruleForm);
-      console.log(data);
-      if (data.code === 0) {
-        this.$router.push('/')
-      } else {
-        this.$message.error('登录失败')
-      }
+    _login() {
+      this.$store.dispatch('user/_login', this.ruleForm).then(data => {
+        if (data.code === 0) {
+          this.$router.push(this.$route.query.redirect) // 返回重定向的路由
+        } else {
+          this.refresh()
+        }
+      }).catch(() => this.refresh());
     }
   },
   components: {
