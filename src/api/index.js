@@ -51,6 +51,7 @@ export const post = (url, data) => {
         method: 'post',
         url,
         data: Qs.stringify(data),
+        // data: data,
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
         }
