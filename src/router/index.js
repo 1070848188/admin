@@ -4,6 +4,8 @@ import Layout from '@/layout';
 import Nprogress from 'nprogress';
 import { getToken } from '@/utils/auth';
 import store from '@/store';
+import asyncRoutesModule from './modules';
+
 
 Vue.use(VueRouter)
 
@@ -48,62 +50,9 @@ export const currencyRoutes = [
   }
 ]
 
-// 测试左侧菜单栏
-const navTest = {
-  path: '/nav-test',
-  component: Layout,
-  name: 'NavTest',
-  meta: { title: '导航菜单测试', icon: 'el-icon-s-grid' },
-  redirect: '/nav-test/nav1',
-  children: [
-    {
-      path: 'nav1',
-      name: 'Nav1',
-      component: () => import('@/views/nav-test/nav1'),
-      meta: { title: '菜单1', icon: 'el-icon-coffee' }
-    },
-    {
-      path: 'nav2',
-      name: 'Nav2',
-      component: () => import('@/views/nav-test/nav2'),
-      meta: { title: '菜单2', icon: 'el-icon-cherry' },
-      redirect: '/nav-test/nav2/nav2-1',
-      children: [
-        {
-          path: 'nav2-1',
-          name: 'Nav2-1',
-          component: () => import('@/views/nav-test/nav2/nav2-1'),
-          meta: { title: '菜单2-1' }
-        },
-        {
-          path: 'nav2-2',
-          name: 'Nav2-2',
-          component: () => import('@/views/nav-test/nav2/nav2-2'),
-          meta: { title: '菜单2-2' },
-          redirect: '/nav-test/nav2/nav2-2/nav2-2-1',
-          children: [
-            {
-              path: 'nav2-2-1',
-              name: 'Nav2-2-1',
-              component: () => import('@/views/nav-test/nav2/nav2-2/nav2-2-1'),
-              meta: { title: '菜单2-2-1', icon: 'el-icon-lollipop' }
-            },
-            {
-              path: 'nav2-2-2',
-              name: 'Nav2-2-2',
-              component: () => import('@/views/nav-test/nav2/nav2-2/nav2-2-2'),
-              meta: { title: '菜单2-2-2' }
-            }
-          ]
-        }
-      ]
-    }
-  ]
-}
-
 // 动态路由 根据权限进行查看
 export const asyncRoutes = [
-  navTest,
+  ...asyncRoutesModule,
   { path: '*', redirect: '/404', hidden: true }
 ]
 
@@ -148,7 +97,6 @@ router.beforeEach(async (to, from, next) => {
          const { roles } = await store.dispatch('user/getInfo');
          const routes = await store.dispatch('permission/getAsyncRoutes', roles);
          router.addRoutes(routes)
-         console.log(routes);
          next({ ...to, replace: true })
       }
       Nprogress.done();
