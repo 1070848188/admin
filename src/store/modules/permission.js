@@ -20,8 +20,8 @@ function forRachRoles(routes, roles) {
             if (itemNew.children && itemNew.children.length > 0) { // 子路由存在
                 itemNew.children = forRachRoles(itemNew.children, roles)
             }
+            newArr.push(itemNew);
         }
-        newArr.push(itemNew);
     }
     return newArr;
 }

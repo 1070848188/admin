@@ -51,6 +51,14 @@
             ></el-input>
           </el-form-item>
 
+          <el-form-item label="说明">
+            <el-input
+              type="textarea"
+              v-model="ruleForm.description"
+              autocomplete="off"
+            ></el-input>
+          </el-form-item>
+
           <el-form-item label="菜单">
             <el-tree
               :data="treeData"
@@ -86,6 +94,7 @@ export default {
       ruleForm: {
         characterName: "",
         characterCode: "",
+        description: ""
       },
       rules: {
         characterName: [
@@ -130,6 +139,8 @@ export default {
           : Object.assign({}, this.ruleForm, {
               characterName: row.characterName,
               characterCode: row.characterCode,
+              id: row.id,
+              description: row.description
             });
       // 获取权限
       const roles = type === "add" ? [] : [...row.roles];

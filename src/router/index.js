@@ -95,7 +95,9 @@ router.beforeEach(async (to, from, next) => {
       } else {
         // 没有权限重新获取
          const { roles } = await store.dispatch('user/getInfo');
+         console.log('权限', roles);
          const routes = await store.dispatch('permission/getAsyncRoutes', roles);
+         console.log('路由', routes);
          router.addRoutes(routes)
          next({ ...to, replace: true })
       }
